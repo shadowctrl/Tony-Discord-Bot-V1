@@ -55,12 +55,26 @@ module.exports = {
 
 
     async run(client,interaction)
-    {
+    {   
         const member = interaction.options.getUser('member');
+        
         const guild_member=interaction.guild.members.cache.get(member.id);
         
         const duration = interaction.options.getNumber('duration');
+        
         const format = interaction.options.getNumber('format');
+
+        var reason = interaction.options.getString('reason');
+
+        const embed_mp = new MessageEmbed()
+            .setColor("DARK_RED")
+            .setDescription(`**Make sure my role is top in server roles**. You cannot timeout ${member}`)
+            .setTimestamp();
+
+        if (!guild_member.moderatable)
+            return interaction.reply({ embeds: [embed_mp]});
+            
+        
         switch (format)
         {
             case 1:
@@ -75,24 +89,31 @@ module.exports = {
             case 4:
                 var ms = duration * 60000 * 60 * 24;
                 break;
+            default:
+                var ms =duration * 1000;
+                break;
         }       
 
-        var reason = interaction.options.getString('reason');
        
         const embed = new MessageEmbed()
-            .setColor("RED")
-            .setDescription(`User ${member} has been timedout` )
+            .setColor("GREEN")
+            .setDescription(`${member} has been timedout` )
+            .addField("By",`${interaction.member}`,true)
+            .addField("Reason",`${reason}`,true)
+            .setFooter({text:"https://cutt.ly/tonydiscordbot"})
+            .setURL("https://cutt.ly/tonydiscordbot")
             .setTimestamp();
 
             if (ms)
             {   
                 if(!reason) reason = "Not Specified";
-
+                await interaction.deferReply();
                 guild_member.timeout(ms,reason);
-                await interaction.reply({embeds: [embed]});
+                await interaction.editReply({embeds: [embed]});
             } 
             else{
-                interaction.reply("Kindly Specify a valid time");
+                await interaction.deferReply();
+                interaction.editReply("Kindly Specify a valid time");
             }
 
     }
