@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed, Permissions } = require('discord.js');
 const { read } = require('fs');
 const ms = require('ms');
 const { format } = require('path/posix');
@@ -55,7 +55,13 @@ module.exports = {
 
 
     async run(client,interaction)
-    {   
+
+    { 
+        if (!interaction.member.permissions.has("MANAGE_MESSAGES"))
+        {
+            return await interaction.reply("You can't use this command");
+        }
+
         const member = interaction.options.getUser('member');
         
         const guild_member=interaction.guild.members.cache.get(member.id);
