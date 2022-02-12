@@ -20,8 +20,10 @@ Features:
 4. General Mods
 5. NSFW 
 6. Custom prefix
-7. 24/7 uptime
-8. Discord support server
-9. more commands rolling out each day...
+7. Per server suggestions and per server reports.
+8. 24/7 uptime
+9. Discord support server
+10.For user eay handling we have botreport commands to hear out your suggestions and reports.  
+11. more commands rolling out each day...
 
 For Support contact via discord server  https://discord.gg/C7xGA8Dbbe
